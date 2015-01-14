@@ -140,19 +140,12 @@ public class CodeGenerator {
         // Describe contents method
         PsiMethod describeContentsMethod = elementFactory.createMethodFromText(generateDescribeContents(), mClass);
 
-        JavaCodeStyleManager styleManager = JavaCodeStyleManager.getInstance(mClass.getProject());
-
         // Shorten all class references
-        styleManager.shortenClassReferences(mClass.addBefore(describeContentsMethod, mClass.getLastChild()));
-        styleManager.shortenClassReferences(mClass.addBefore(writeToParcelMethod, mClass.getLastChild()));
-
-        // Only adds if available
-        if (defaultConstructor != null) {
-            styleManager.shortenClassReferences(mClass.addBefore(defaultConstructor, mClass.getLastChild()));
-        }
-
+        JavaCodeStyleManager styleManager = JavaCodeStyleManager.getInstance(mClass.getProject());
         styleManager.shortenClassReferences(mClass.addBefore(constructor, mClass.getLastChild()));
+        styleManager.shortenClassReferences(mClass.addBefore(writeToParcelMethod, mClass.getLastChild()));
         styleManager.shortenClassReferences(mClass.addBefore(creatorField, mClass.getLastChild()));
+        styleManager.shortenClassReferences(mClass.addBefore(describeContentsMethod, mClass.getLastChild()));
 
         makeClassImplementParcelable(elementFactory);
     }
