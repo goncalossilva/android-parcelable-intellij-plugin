@@ -199,7 +199,7 @@ public class CodeGenerator {
         PsiClass clazz = mClass;
         do {
             implementsListTypes.addAll(Arrays.asList(clazz.getImplementsListTypes()));
-        } while ((clazz = mClass.getSuperClass()) != null);
+        } while ((clazz = clazz.getSuperClass()) != null);
 
         for (PsiClassType implementsListType : implementsListTypes) {
             PsiClass resolved = implementsListType.resolve();
@@ -210,8 +210,8 @@ public class CodeGenerator {
             }
         }
 
-        PsiJavaCodeReferenceElement implementsReference = elementFactory
-                .createReferenceFromText(implementsType, mClass);
+        PsiJavaCodeReferenceElement implementsReference =
+                elementFactory.createReferenceFromText(implementsType, mClass);
         PsiReferenceList implementsList = mClass.getImplementsList();
 
         if (implementsList != null) {
