@@ -1,5 +1,10 @@
 # Change Log
 
+##Version 0.7
+
+* Improve parcelable-related declaration order
+* Remove unecessary "this." prefixes (Android projects follow Hungarian notation)
+
 ##Version 0.6
 
 * CREATOR is now final - proguard will not touch it now
