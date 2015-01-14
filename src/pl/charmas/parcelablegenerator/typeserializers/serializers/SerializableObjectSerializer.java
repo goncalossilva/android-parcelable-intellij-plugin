@@ -9,11 +9,11 @@ import pl.charmas.parcelablegenerator.typeserializers.TypeSerializer;
 public class SerializableObjectSerializer implements TypeSerializer {
     @Override
     public String writeValue(PsiField field, String parcel, String flags) {
-        return parcel + ".writeSerializable(this." + field.getName() + ");";
+        return parcel + ".writeSerializable(" + field.getName() + ");";
     }
 
     @Override
     public String readValue(PsiField field, String parcel) {
-        return "this." + field.getName() + " = (" + field.getType().getCanonicalText() + ") " + parcel + ".readSerializable();";
+        return field.getName() + " = (" + field.getType().getCanonicalText() + ") " + parcel + ".readSerializable();";
     }
 }

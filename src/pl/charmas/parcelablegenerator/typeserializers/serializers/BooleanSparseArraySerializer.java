@@ -22,11 +22,11 @@ public class BooleanSparseArraySerializer implements TypeSerializer {
 
     @Override
     public String writeValue(PsiField field, String parcel, String flags) {
-        return parcel + ".writeSparseBooleanArray(this." + field.getName() + ");";
+        return parcel + ".writeSparseBooleanArray(" + field.getName() + ");";
     }
 
     @Override
     public String readValue(PsiField field, String parcel) {
-        return "this." + field.getName() + " = " + parcel + ".readSparseBooleanArray();";
+        return field.getName() + " = " + parcel + ".readSparseBooleanArray();";
     }
 }

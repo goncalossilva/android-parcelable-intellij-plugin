@@ -27,6 +27,6 @@ public class BooleanPrimitiveSerializer implements TypeSerializer {
 
     @Override
     public String readValue(PsiField field, String parcel) {
-        return "this." + field.getName() + " = " + parcel + ".readByte() != 0;";
+        return field.getName() + " = " + parcel + ".readByte() != 0;";
     }
 }

@@ -38,8 +38,9 @@ public class DateSerializer implements TypeSerializer {
     public String readValue(PsiField field, String parcel) {
         String fieldName = field.getName();
         String tmpFieldName = NameUtil.upperCaseFirstLetter(fieldName);
-        String formatted = String.format("long tmp%s = %s.readLong(); " +
-                "this.%s = tmp%s == %s ? null : new java.util.Date(tmp%s);", tmpFieldName, parcel, fieldName, tmpFieldName, NULL_VALUE, tmpFieldName);
+        String formatted =
+                String.format("long tmp%s = %s.readLong();\n%s = tmp%s == %s ? null : new java.util.Date(tmp%s);",
+                              tmpFieldName, parcel, fieldName, tmpFieldName, NULL_VALUE, tmpFieldName);
         return formatted;
     }
 }

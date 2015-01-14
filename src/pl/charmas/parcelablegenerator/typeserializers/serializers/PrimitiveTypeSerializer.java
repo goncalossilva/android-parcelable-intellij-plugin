@@ -28,11 +28,11 @@ public class PrimitiveTypeSerializer implements TypeSerializer {
 
     @Override
     public String writeValue(PsiField field, String parcel, String flags) {
-        return parcel + ".write" + typeName + "(this." + field.getName() + ");";
+        return parcel + ".write" + typeName + "(" + field.getName() + ");";
     }
 
     @Override
     public String readValue(PsiField field, String parcel) {
-        return "this." + field.getName() + " = " + parcel + ".read" + typeName + "();";
+        return field.getName() + " = " + parcel + ".read" + typeName + "();";
     }
 }

@@ -28,11 +28,11 @@ public class NullablePrimitivesSerializer implements TypeSerializer {
 
     @Override
     public String writeValue(PsiField field, String parcel, String flags) {
-        return parcel + ".writeValue(this." + field.getName() + ");";
+        return parcel + ".writeValue(" + field.getName() + ");";
     }
 
     @Override
     public String readValue(PsiField field, String parcel) {
-        return "this." + field.getName() + " = (" + typeName + ")" + parcel + ".readValue(" + typeName + ".class.getClassLoader());";
+        return field.getName() + " = (" + typeName + ")" + parcel + ".readValue(" + typeName + ".class.getClassLoader());";
     }
 }

@@ -22,13 +22,13 @@ public class ListPrimitiveSerializer implements TypeSerializer {
 
     @Override
     public String writeValue(PsiField field, String parcel, String flags) {
-        return parcel + ".writeList(this." + field.getName() + ");";
+        return parcel + ".writeList(" + field.getName() + ");";
     }
 
     @Override
     public String readValue(PsiField field, String parcel) {
         String typeName = field.getType().getCanonicalText();
-        return "this." + field.getName() + " = new java.util.ArrayList<" + typeName + ">();" +
-                "in.readList(this." + field.getName() + " ," + typeName + ".class.getClassLoader());";
+        return field.getName() + " = new java.util.ArrayList<" + typeName +
+                ">();\nin.readList(this." + field.getName() + " ," + typeName + ".class.getClassLoader());";
     }
 }
