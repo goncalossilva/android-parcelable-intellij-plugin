@@ -59,7 +59,7 @@ public class CodeGenerator {
         mClass = psiClass;
         mFields = fields;
 
-        this.mTypeSerializerFactory = new ChainSerializerFactory(
+        mTypeSerializerFactory = new ChainSerializerFactory(
                 new BundleSerializerFactory(),
                 new DateSerializerFactory(),
                 new EnumerationSerializerFactory(),
