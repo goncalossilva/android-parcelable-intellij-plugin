@@ -128,14 +128,6 @@ public class CodeGenerator {
 
         removeExistingParcelableImplementation(mClass);
 
-        // Default constructor if needed
-        String defaultConstructorString = generateDefaultConstructor(mClass);
-        PsiMethod defaultConstructor = null;
-
-        if (defaultConstructorString != null) {
-            defaultConstructor = elementFactory.createMethodFromText(defaultConstructorString, mClass);
-        }
-
         // Constructor
         PsiMethod constructor = elementFactory.createMethodFromText(generateConstructor(mFields, mClass), mClass);
 
@@ -179,18 +171,6 @@ public class CodeGenerator {
         findAndRemoveMethod(psiClass, psiClass.getName(), "android.os.Parcel");
         findAndRemoveMethod(psiClass, "describeContents");
         findAndRemoveMethod(psiClass, "writeToParcel", "android.os.Parcel", "int");
-    }
-
-    private String generateDefaultConstructor(PsiClass clazz) {
-        // Check for any constructors; if none exist, we'll make a default one
-        if (clazz.getConstructors().length == 0) {
-            // No constructors exist, make a default one for convenience
-            StringBuilder sb = new StringBuilder();
-            sb.append("public ").append(clazz.getName()).append("(){}").append('\n');
-            return sb.toString();
-        } else {
-        return null;
-        }
     }
 
     private void makeClassImplementParcelable(PsiElementFactory elementFactory) {
