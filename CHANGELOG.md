@@ -4,6 +4,7 @@
 
 * Improve parcelable-related declaration order
 * Remove unecessary "this." prefixes (Android projects follow Hungarian notation)
+* Remove default constructor creation (out of scope)
 
 ##Version 0.6
 
