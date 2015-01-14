@@ -128,11 +128,6 @@ public class CodeGenerator {
 
         removeExistingParcelableImplementation(mClass);
 
-        // Describe contents method
-        PsiMethod describeContentsMethod = elementFactory.createMethodFromText(generateDescribeContents(), mClass);
-        // Method for writing to the parcel
-        PsiMethod writeToParcelMethod = elementFactory.createMethodFromText(generateWriteToParcel(mFields), mClass);
-
         // Default constructor if needed
         String defaultConstructorString = generateDefaultConstructor(mClass);
         PsiMethod defaultConstructor = null;
@@ -143,8 +138,15 @@ public class CodeGenerator {
 
         // Constructor
         PsiMethod constructor = elementFactory.createMethodFromText(generateConstructor(mFields, mClass), mClass);
+
+        // Method for writing to the parcel
+        PsiMethod writeToParcelMethod = elementFactory.createMethodFromText(generateWriteToParcel(mFields), mClass);
+
         // CREATOR
         PsiField creatorField = elementFactory.createFieldFromText(generateStaticCreator(mClass), mClass);
+
+        // Describe contents method
+        PsiMethod describeContentsMethod = elementFactory.createMethodFromText(generateDescribeContents(), mClass);
 
         JavaCodeStyleManager styleManager = JavaCodeStyleManager.getInstance(mClass.getProject());
 
@@ -163,10 +165,6 @@ public class CodeGenerator {
         makeClassImplementParcelable(elementFactory);
     }
 
-    /**
-     * Strips the
-     * @param psiClass
-     */
     private void removeExistingParcelableImplementation(PsiClass psiClass) {
         PsiField[] allFields = psiClass.getAllFields();
 
@@ -196,8 +194,12 @@ public class CodeGenerator {
     }
 
     private void makeClassImplementParcelable(PsiElementFactory elementFactory) {
-        final PsiClassType[] implementsListTypes = mClass.getImplementsListTypes();
         final String implementsType = "android.os.Parcelable";
+        final List<PsiClassType> implementsListTypes = new ArrayList<PsiClassType>();
+        PsiClass clazz = mClass;
+        do {
+            implementsListTypes.addAll(Arrays.asList(clazz.getImplementsListTypes()));
+        } while ((clazz = mClass.getSuperClass()) != null);
 
         for (PsiClassType implementsListType : implementsListTypes) {
             PsiClass resolved = implementsListType.resolve();
@@ -208,7 +210,8 @@ public class CodeGenerator {
             }
         }
 
-        PsiJavaCodeReferenceElement implementsReference = elementFactory.createReferenceFromText(implementsType, mClass);
+        PsiJavaCodeReferenceElement implementsReference = elementFactory
+                .createReferenceFromText(implementsType, mClass);
         PsiReferenceList implementsList = mClass.getImplementsList();
 
         if (implementsList != null) {
